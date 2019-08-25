@@ -1,12 +1,20 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const CleanWebpackPlugin = require('clean-webpack-plugin');
+const Webpack = require('webpack')
 module.exports = {
-	mode: 'production',
+	mode: 'development',
 	entry: {
 	   main: './src/index.js',
 	},
+	devServer: {
+	  contentBase: './dist', // 运行dist文件
+	  open: true,
+	  hot: true, // 修改代码时防止页面刷新
+	  hotOnly: true // 修改代码时防止页面刷新
+	},
+	devtool: 'cheap-module-eval-source-map', //出错文件映射
 	module: {
 		rules: [
 		  {
@@ -41,12 +49,41 @@ module.exports = {
             'sass-loader',
             'postcss-loader'
             ]
+		  },
+		  {
+            test: /\.css$/,
+            use: [
+            'style-loader', 
+            'postcss-loader'
+            ]
+		  },
+		  { 
+			test: /\.js$/, 
+			exclude: /node_modules/, 
+			loader: "babel-loader",
+			// 可以单独放到.babelrc文件中
+			// options: {
+			//   // "presets": ["@babel/preset-env"]  // es6转化维es5
+			// //   "presets": [["@babel/preset-env", {
+			// // 	  useBuiltIns: 'usage'
+			// //   }]]  // 根据浏览器的需要添加es6方法
+		    // 	"plugins": [["@babel/plugin-transform-runtime", {
+			// 		"absoluteRuntime": false,
+			// 		"corejs": 2,
+			// 		"helpers": true,
+			// 		"regenerator": true,
+			// 		"useESModules": false
+			// 	  }]]
+			// }
 		  }
 		]
 	},
 	plugins:[new HtmlWebpackPlugin({
-		template: 'src/index.html'
-	})],
+		template: 'src/index.html' // 模板文件
+	}), 
+	new CleanWebpackPlugin({cleanAfterEveryBuildPatterns: ['dist']}), // 清除dist目录
+	new Webpack.HotModuleReplacementPlugin()  // 修改代码时防止页面刷新
+],
 	output: {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'dist')
