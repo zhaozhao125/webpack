@@ -84,8 +84,11 @@ module.exports = {
 	new CleanWebpackPlugin({cleanAfterEveryBuildPatterns: ['dist']}), // 清除dist目录
 	new Webpack.HotModuleReplacementPlugin()  // 修改代码时防止页面刷新
 ],
-	output: {
+output: {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'dist')
-	}
+	},
+optimization: {
+	usedExports: true
+}
 }

@@ -27,6 +27,10 @@
 //     div.innerHTML = "div"
 //     document.body.append(div)
 // }
+console.log(123)
 
+// import "@babel/polyfill";  // 解决低版本浏览器不支持es6语法
 
-import "@babel/polyfill";  // 解决低版本浏览器不支持es6语法
+// Tree Shaking 支支持es module的引入  （摇树）
+import { add }  from './math'
+add(1,2)
