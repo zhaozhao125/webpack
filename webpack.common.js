@@ -1,21 +1,12 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const CleanWebpackPlugin = require('clean-webpack-plugin');
 const Webpack = require('webpack')
+const path = require('path');
 module.exports = {
-	mode: 'development',
-	entry: {
-	   main: './src/index.js',
-	},
-	devServer: {
-	  contentBase: './dist', // 运行dist文件
-	  open: true,
-	  hot: true, // 修改代码时防止页面刷新
-	  hotOnly: true // 修改代码时防止页面刷新
-	},
-	devtool: 'cheap-module-eval-source-map', //出错文件映射
-	module: {
+  entry: {
+    main: './src/index.js',
+ },
+  module: {
 		rules: [
 		  {
             test: /\.(png|jpg|gif)$/,
@@ -77,18 +68,19 @@ module.exports = {
 			// }
 		  }
 		]
-	},
+  },
+  
 	plugins:[new HtmlWebpackPlugin({
 		template: 'src/index.html' // 模板文件
 	}), 
-	new CleanWebpackPlugin({cleanAfterEveryBuildPatterns: ['dist']}), // 清除dist目录
-	new Webpack.HotModuleReplacementPlugin()  // 修改代码时防止页面刷新
-],
-output: {
+    new CleanWebpackPlugin({cleanAfterEveryBuildPatterns: ['dist']}), // 清除dist目录
+    new Webpack.HotModuleReplacementPlugin()  // 修改代码时防止页面刷新
+  ], 
+  output: {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'dist')
-	},
-optimization: {
-	usedExports: true
-}
+  },
+  optimization: {
+    usedExports: true
+  }
 }
